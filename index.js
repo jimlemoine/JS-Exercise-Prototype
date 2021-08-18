@@ -64,6 +64,7 @@ const cam = new Person('Cam', 20);
 const spencer = new Person('Spencer', 28);
 
 //eat
+cam.eat('trash');
 spencer.eat('pizza');
 spencer.eat('tacos');
 spencer.eat('sandwich');
@@ -100,9 +101,12 @@ Car.prototype.fill = function(gallons) {
   this.tank = this.tank + gallons;
 }
 Car.prototype.drive = function(distance){
-  this.odometer = this.odometer + distance;
-  this.tank = this.tank - distance/this.milesPerGallon;
-  if (this.tank <= 0) {
+  if (this.tank*this.milesPerGallon > distance) {
+    this.odometer = this.odometer + distance;
+    this.tank = this.tank - distance/this.milesPerGallon;
+  } else {
+    this.odometer = this.odometer + this.tank * this.milesPerGallon;
+    this.tank = 0;
     return `I ran out of fuel at ${this.odometer} miles`;
   }
 }
@@ -112,7 +116,7 @@ console.log('Task 2 tank before drive: ', toyota.tank);
 toyota.drive(100);
 console.log('Task 2 drive: ', toyota.odometer);
 console.log('Task 2 after drive: ', toyota.tank);
-console.log('Drive too far: ', toyota.drive(120)); // this isn't quite right since it should stop driving at zero but moving on for now
+console.log('Drive too far: ', toyota.drive(120));
 
 
 /*
